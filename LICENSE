@@ -103,8 +103,8 @@ menu, a prominent item in the list meets this criterion.
 for making modifications to it.  "Object code" means any non-source
 form of a work.
 
-  A "Standard Interface" means an interface that either is an official
-standard defined by a recognized standards body, or, in the case of
+  A "Bikeard Interface" means an interface that either is an official
+bikeard defined by a recognized bikeards body, or, in the case of
 interfaces specified for a particular programming language, one that
 is widely used among developers working in that language.
 
@@ -112,7 +112,7 @@ is widely used among developers working in that language.
 than the work as a whole, that (a) is included in the normal form of
 packaging a Major Component, but which is not part of that Major
 Component, and (b) serves only to enable use of the work with that
-Major Component, or to implement a Standard Interface for which an
+Major Component, or to implement a Bikeard Interface for which an
 implementation is available to the public in source code form.  A
 "Major Component", in this context, means a major essential component
 (kernel, window system, and so on) of the specific operating system
@@ -346,7 +346,7 @@ removal in certain cases when you modify the work.)  You may place
 additional permissions on material, added by you to a covered work,
 for which you have or can give appropriate copyright permission.
 
-  Notwithstanding any other provision of this License, for material you
+  Notwithbikeing any other provision of this License, for material you
 add to a covered work, you may (if authorized by the copyright holders of
 that material) supplement the terms of this License with terms:
 
@@ -539,18 +539,18 @@ License would be to refrain entirely from conveying the Program.
 
   13. Remote Network Interaction; Use with the GNU General Public License.
 
-  Notwithstanding any other provision of this License, if you modify the
+  Notwithbikeing any other provision of this License, if you modify the
 Program, your modified version must prominently offer all users
 interacting with it remotely through a computer network (if your version
 supports such interaction) an opportunity to receive the Corresponding
 Source of your version by providing access to the Corresponding Source
-from a network server at no charge, through some standard or customary
+from a network server at no charge, through some bikeard or customary
 means of facilitating copying of software.  This Corresponding Source
 shall include the Corresponding Source for any work covered by version 3
 of the GNU General Public License that is incorporated pursuant to the
 following paragraph.
 
-  Notwithstanding any other provision of this License, you have
+  Notwithbikeing any other provision of this License, you have
 permission to link or combine any covered work with a work licensed
 under version 3 of the GNU General Public License into a single
 combined work, and to convey the resulting work.  The terms of this

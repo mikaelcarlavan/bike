@@ -1,0 +1,121 @@
+# Copyright (C) 2022 Mikael Carlavan <contact@mika-carl.fr>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#
+# Générique
+#
+
+# Module label 'ModuleBikeName'
+ModuleBikeName = Vélos
+# Module description 'ModuleBikeDesc'
+ModuleBikeDesc = Module permettant de gérer les vélos
+
+#
+# Page d'administration
+#
+BikeSetup = Configuration du module
+Settings = Réglages
+BikeSetupPage = Page de réglage du module
+BikeOptions = Options
+Description = Description
+Value = Valeur
+Action = Action
+BikesNumberingModules = Modèle de numérotation de bikes
+NextValue=Prochaine valeur
+NoDescription=Aucune description
+NoExample=Aucun exemple
+NotAvailable=Non disponible
+Extrafields = Attributs supplémentaires
+
+#
+# Page À propos
+#
+About = À propos
+BikeAbout = À propos du module
+BikeAboutPage = Page à propos du module
+BikeAboutDescLong = Ce module a été développé par <a href="http://www.mikael-carlavan.fr">Mikael Carlavan</a> pour <a href="https://veloma.org">Véloma</a>.
+
+# ChangeLog
+ChangeLog = ChangeLog
+ChangeLogVersion = Version
+ChangeLogDate = Date
+ChangeLogUpdates = Modification apportées
+BikeFirstVersion = Première version
+
+#
+Bike = Vélo
+Bikes = Vélos
+BikesList = Liste
+ListeBikes = Liste des vélos
+BikesNew = Nouveau vélo
+BikesArea = Espace vélos
+NoBike = Aucune vélo
+LastModifiedBikes = Les %d derniers vélos modifiés
+#
+NewBike = Nouveau vélo
+CreateBike = Créer vélo
+ShowBike = Voir le vélo
+BikeCard = Vélo
+Info = Suivi
+Ref = Réf.
+BikeActive = Actif
+BikeName = Nom
+BikeNote = Note
+BikeStand = Station
+BikeUser = Utilisateur
+BikeCode = Code antivol
+BikeNotePublic = Note (publique)
+BikeNotePrivate = Note (privée)
+DateCreation = Date de création
+DateModificationShort = Date de modif.
+UserAuthorId = Utilisateur
+ListOfBikes = Liste des vélos
+CreatedByUsers = Utilisateurs
+NumOfBikes = Nombre de vélos
+BikePeriod = Période
+BikeMonth = Mois
+BikeYear = Année
+BikeAlreadyExists = La vélo existe déjà
+#
+BikeDeactivate = Désactiver
+BikeActivate = Activer
+MassActionDelete = Supprimer
+DeleteBike = Supprimer
+ValidateBike = Valider
+SelectBike = Merci de sélectionner un vélo
+ConfirmDeleteBike = Êtes-vous sûr de vouloir effacer ce vélo ?
+ConfirmValidateBike = Êtes-vous sûr de vouloir valider ce vélo ?
+SearchIntoBikes = Vélos
+SendBikeRef = Envoi du vélo
+ConfirmUnvalidateBike=Êtes-vous sûr de vouloir restaurer le vélo <b>%s</b> au statut brouillon ?
+UnvalidateBike=Modifier le vélo
+#
+BikeStatusValidated = Validé
+BikeStatusValidatedShort = Validé
+BikeStatusDraft = Brouillon
+BikeStatusDraftShort = Brouillon
+BikeStatus = Statut
+
+#
+BikeUserNotFound = Le compte utilisateur n'a pas été trouvé
+AccessNotAllowed = Cette action ne vous est pas autorisée.
+BikeNotFound = La vélo n'a pas été trouvé.
+ErrorWhileRetrievingBikeList = Erreur lors de la récupération de la liste des vélos.
+ErrorWhileCreatingBike = Erreur lors de la création du vélo.
+ErrorWhileUpdatingBike = Erreur lors de la mise à jour du vélo.
+BikeHasBeenCreated = Votre vélo %s a bien été enregistré.
+BikeAlreadyExists = Un vélo avec cette référence existe déjà.
+
+

@@ -16,13 +16,15 @@
 --
 -- ============================================================================
 
--- DROP TABLE `llx_bike_note`;
+-- DROP TABLE `llx_bikedet`;
 
 CREATE TABLE IF NOT EXISTS `llx_bikedet`
 (
     `rowid`          int(11) AUTO_INCREMENT,
-    `fk_bike`         int(11) DEFAULT 0,
-    `note`    text         NULL,
+    `fk_bike`        int(11) DEFAULT 0,
+    `note`           text   NULL,
+    `fk_user`        int(11) DEFAULT 0,
+    `user_phone`     varchar(255) NULL,
     `datec`          datetime     NULL,
     `user_author_id` int(11) DEFAULT 0,
     `tms`            timestamp    NOT NULL,

@@ -74,7 +74,8 @@ BikeActive = Actif
 BikeName = Nom
 BikeNote = Note
 BikeStand = Station
-BikeUser = Utilisateur
+BikeUser = Utilisateur (id)
+BikeUserPhone = Utilisateur (téléphone)
 BikeCode = Code antivol
 BikeNotePublic = Note (publique)
 BikeNotePrivate = Note (privée)
@@ -101,6 +102,8 @@ SearchIntoBikes = Vélos
 SendBikeRef = Envoi du vélo
 ConfirmUnvalidateBike=Êtes-vous sûr de vouloir restaurer le vélo <b>%s</b> au statut brouillon ?
 UnvalidateBike=Modifier le vélo
+ConfirmDeleteBikeLine = Êtes-vous sûr de vouloir effacer cette note de vélo ?
+DeleteBikeLine = Supprimer note de vélo
 #
 BikeStatusValidated = Validé
 BikeStatusValidatedShort = Validé
@@ -117,5 +120,7 @@ ErrorWhileCreatingBike = Erreur lors de la création du vélo.
 ErrorWhileUpdatingBike = Erreur lors de la mise à jour du vélo.
 BikeHasBeenCreated = Votre vélo %s a bien été enregistré.
 BikeAlreadyExists = Un vélo avec cette référence existe déjà.
+#
+BikeAddNewNote = Ajouter une note
 
 

@@ -1,4 +1,10 @@
 <?php
+/*
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+*/
+
 /* Copyright (C) 2022	Mikael Carlavan	    <contact@mika-carl.fr>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -98,6 +104,7 @@ if (empty($reshook))
 		$note_public = GETPOST('note_public', 'restricthtml');
         $note_private = GETPOST('note_private', 'restricthtml');
 		$code = GETPOST('code', 'alpha');
+        $user_phone = GETPOST('user_phone', 'alpha');
         $fk_user = GETPOST('fk_user', 'int');
         $fk_stand = GETPOST('fk_stand', 'int');
 
@@ -111,8 +118,9 @@ if (empty($reshook))
 			$object->code = $code;
 			$object->note_public 	= $note_public;
             $object->note_private 	= $note_private;
-            $object->fk_user 	= $fk_user;
-            $object->fk_stand 	= $fk_stand;
+            $object->fk_user 	    = $fk_user;
+            $object->fk_stand 	    = $fk_stand;
+            $object->user_phone 	= $user_phone;
 
 			$id = $object->create($user);
 		}
@@ -155,12 +163,80 @@ if (empty($reshook))
 		
 		if ($result < 0) setEventMessages($object->error, $object->errors, 'errors');
 	}
+    else if ($action == 'setuser_phone' && !GETPOST('cancel','alpha'))
+    {
+        $object->user_phone = GETPOST('user_phone', 'alpha');
+        $result = $object->update($user);
+
+        if ($result < 0) setEventMessages($object->error, $object->errors, 'errors');
+    }
     else if ($action == 'setfk_stand' && !GETPOST('cancel','alpha'))
     {
         $object->fk_stand = GETPOST('fk_stand', 'int');
         $result = $object->update($user);
 
         if ($result < 0) setEventMessages($object->error, $object->errors, 'errors');
+    }
+    else if ($action == 'confirm_deleteline' && $confirm == 'yes' && $user->rights->bike->creer)
+    {
+        // Remove a product line
+        $result = $object->deleteline($user, $lineid);
+        if ($result > 0) {
+            header('Location: '.$_SERVER["PHP_SELF"].'?id='.$object->id);
+            exit;
+        } else {
+            setEventMessages($object->error, $object->errors, 'errors');
+        }
+    } elseif ($action == 'addline' && $user->rights->bike->creer) {		// Add a new line
+        $langs->load('errors');
+        $error = 0;
+
+        // Set if we used free entry or predefined product
+        $note = (GETPOSTISSET('note') ? GETPOST('note', 'restricthtml') : '');
+        $fk_user = GETPOST('fk_user', 'int');
+        $user_phone = GETPOST('user_phone', 'alpha');
+
+
+        if (!$error) {
+
+            // Insert line
+            $result = $object->addline($note, $fk_user, $user_phone);
+
+            if ($result > 0) {
+                $ret = $object->fetch($object->id); // Reload to get new records
+
+                unset($_POST['note']);
+                unset($_POST['user_phone']);
+                unset($_POST['fk_user']);
+
+            } else {
+                setEventMessages($object->error, $object->errors, 'errors');
+            }
+
+        }
+    }
+    elseif ($action == 'updateline' && $user->rights->bike->creer && !$cancel)
+    {
+        // Update a line
+        $note = (GETPOSTISSET('note') ? GETPOST('note', 'restricthtml') : '');
+        $fk_user = GETPOST('fk_user', 'int');
+        $user_phone = GETPOST('user_phone', 'alpha');
+
+        $result = $object->updateline(GETPOST('lineid', 'int'), $note, $fk_user, $user_phone);
+
+        if ($result >= 0) {
+            unset($_POST['note']);
+            unset($_POST['user_phone']);
+            unset($_POST['fk_user']);
+        } else {
+            setEventMessages($object->error, $object->errors, 'errors');
+        }
+
+    }
+    elseif ($action == 'updateline' && $user->rights->bike->creer && $cancel)
+    {
+        header('Location: '.$_SERVER['PHP_SELF'].'?id='.$object->id); // Pour reaffichage de la fiche en cours d'edition
+        exit();
     }
 
 	if ($action == 'update_extras')
@@ -251,6 +327,10 @@ if ($action == 'create' && $user->rights->bike->creer)
     print $form->select_dolusers(GETPOST('fk_user', 'int'),  'fk_user', 1);
     print '</td></tr>';
 
+    print '<tr><td>' . $langs->trans('BikeUserPhone') . '</td><td>';
+    print '<input type="text" class="flat" size="60" name="user_phone" value="'.GETPOST('user_phone').'">';
+    print '</td></tr>';
+
 	// Other attributes
 	$parameters = array('objectsrc' => '', 'socid'=> '');
 	$reshook = $hookmanager->executeHooks('formObjectOptions', $parameters, $object, $action); // Note that $action and $object may have been modified by
@@ -304,7 +384,9 @@ if ($action == 'create' && $user->rights->bike->creer)
 			$formconfirm = $form->formconfirm($_SERVER["PHP_SELF"] . '?id=' . $object->id, $langs->trans('DeleteBike'), $langs->trans('ConfirmDeleteBike'), 'confirm_delete', '', 0, 1);
 		}
 
-
+        if ($action == 'ask_deleteline') {
+            $formconfirm = $form->formconfirm($_SERVER["PHP_SELF"].'?id='.$object->id.'&lineid='.$lineid, $langs->trans('DeleteBikeLine'), $langs->trans('ConfirmDeleteBikeLine'), 'confirm_deleteline', '', 0, 1);
+        }
 		// Call Hook formConfirm
 		$parameters = array();
 		$reshook = $hookmanager->executeHooks('formConfirm', $parameters, $object, $action); // Note that $action and $object may have been modified by hook
@@ -417,6 +499,27 @@ if ($action == 'create' && $user->rights->bike->creer)
         print '</td>';
         print '</tr>';
 
+        print '<tr><td>';
+        print '<table class="nobordernopadding" width="100%"><tr><td>';
+        print $langs->trans('BikeUserPhone');
+        print '</td>';
+        if ($action != 'edituser_phone')
+            print '<td align="right"><a href="' . $_SERVER["PHP_SELF"] . '?action=edituser_phone&amp;id=' . $object->id . '">' . img_edit($langs->trans('SetLicencePlate'), 1) . '</a></td>';
+        print '</tr></table>';
+        print '</td><td>';
+        if ($action == 'edituser_phone') {
+            print '<form name="setuser_phone" action="' . $_SERVER["PHP_SELF"] . '?id=' . $object->id . '" method="post">';
+            print '<input type="hidden" name="token" value="' . $_SESSION ['newtoken'] . '">';
+            print '<input type="hidden" name="action" value="setuser_phone">';
+            print '<input type="text" class="flat" size="60" name="user_phone" value="'.$object->user_phone.'">';
+            print '<input type="submit" class="button" value="' . $langs->trans('Modify') . '">';
+            print '</form>';
+        } else {
+            print $object->user_phone ? $object->user_phone : '&nbsp;';
+        }
+        print '</td>';
+        print '</tr>';
+
 		// Other attributes
 		include DOL_DOCUMENT_ROOT . '/core/tpl/extrafields_view.tpl.php';
 
@@ -436,6 +539,46 @@ if ($action == 'create' && $user->rights->bike->creer)
 
         print '<div class="clearboth"></div><br />';
 
+        /*
+                 * Lines
+                 */
+        $result = $object->getLinesArray();
+
+        print '<form name="addline" id="addline" action="'.$_SERVER["PHP_SELF"].'?id='.$object->id.(($action != 'editline') ? '' : '#line_'.GETPOST('lineid', 'int')).'" method="POST">
+		<input type="hidden" name="token" value="' . newToken().'">
+		<input type="hidden" name="action" value="' . (($action != 'editline') ? 'addline' : 'updateline').'">
+		<input type="hidden" name="mode" value="">
+		<input type="hidden" name="page_y" value="">
+		<input type="hidden" name="id" value="' . $object->id.'">';
+
+        print '<div class="div-table-responsive-no-min">';
+        print '<table id="tablelines" class="noborder noshadow" width="100%">';
+
+        // Show object lines
+        if (!empty($object->lines)) {
+            $ret = $object->printObjectLines($action, $mysoc, $object->thirdparty, $lineid, 1);
+        }
+
+        $numlines = count($object->lines);
+
+        /*
+         * Form to add new line
+         */
+        if ($user->rights->bike->creer && $action != 'selectlines') {
+            if ($action != 'editline') {
+                // Add products
+                $parameters = array();
+                // Note that $action and $object may be modified by hook
+                $reshook = $hookmanager->executeHooks('formAddObjectLine', $parameters, $object, $action);
+                if ($reshook < 0) setEventMessages($hookmanager->error, $hookmanager->errors, 'errors');
+                if (empty($reshook))
+                    $object->formAddObjectLine(1, $mysoc, $object->thirdparty);
+            }
+        }
+        print '</table>';
+        print '</div>';
+
+        print "</form>";
 
 		dol_fiche_end();
 

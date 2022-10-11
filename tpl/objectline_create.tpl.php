@@ -56,7 +56,6 @@ if ($nolinesbefore) {
 			<div id="add"></div><span class="hideonsmartphone"><?php echo $langs->trans('BikeAddNewNote'); ?></span>
 		</td>
         <td class="linecolfkuser right"><?php echo $langs->trans('BikeUser'); ?></td>
-        <td class="linecoluserphone right"><?php echo $langs->trans('BikeUserPhone'); ?></td>
         <td class="linecoledit" colspan="3">&nbsp;</td>
 	</tr>
 	<?php
@@ -100,8 +99,8 @@ if ($nolinesbefore) {
        <?php print $form->select_dolusers(GETPOST('fk_user', 'int'),  'fk_user', 1); ?>
 	</td>
 
-    <td class="nobottom linecoluserphone right">
-        <input type="text" size="40" name="user_phone" id="user_phone" class="flat right" value="<?php echo GETPOST('user_phone', 'alpha'); ?>">
+    <td class="nobottom linecoldatec right">
+        &nbsp;
     </td>
 
 	<td class="nobottom linecoledit center valignmiddle" colspan="3">

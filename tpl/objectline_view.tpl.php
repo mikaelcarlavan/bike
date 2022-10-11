@@ -69,8 +69,8 @@ $domData .= ' data-id="'.$line->id.'"';
     <?php print $line->fk_user > 0 ? $line->user->getNomUrl(1) : '&nbsp;'; ?>
     </td>
 
-	<td class="linecoluserphone nowrap right">
-    <?php print $line->user_phone; ?>
+	<td class="linecoldatec nowrap right">
+    <?php print $line->datec > 0 ? dol_print_date($line->datec, '%d/%m/%Y') : '&nbsp;'; ?>
     </td>
 
 <?php if ($this->statut == 0 && !empty($object_rights->creer) && $action != 'selectlines') {

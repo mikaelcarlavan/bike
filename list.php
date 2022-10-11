@@ -104,7 +104,6 @@ $arrayfields = array(
     'e.code' => array('label' => $langs->trans("BikeCode"), 'checked' => 1),
     'e.fk_stand' => array('label' => $langs->trans("BikeStand"), 'checked' => 1, 'enabled' => $conf->stand->enabled),
     'e.fk_user' => array('label' => $langs->trans("BikeUser"), 'checked' => 1),
-    'e.user_phone' => array('label' => $langs->trans("BikeUserPhone"), 'checked' => 1),
     'e.datec' => array('label' => $langs->trans("DateCreation"), 'checked' => 1),
     'e.tms' => array('label' => $langs->trans("DateModificationShort"), 'checked' => 0, 'position' => 500),
     'e.active' => array('label' => $langs->trans("BikeActive"), 'checked' => 1, 'position' => 1000),
@@ -213,7 +212,7 @@ $help_url = "";
 
 $sql = 'SELECT';
 if ($sall) $sql = 'SELECT DISTINCT';
-$sql .= " e.rowid, e.ref, e.active, e.datec, e.name, e.code, e.fk_user, e.user_phone, e.fk_stand, e.user_author_id, e.entity, e.tms ";
+$sql .= " e.rowid, e.ref, e.active, e.datec, e.name, e.code, e.fk_user, e.fk_stand, e.user_author_id, e.entity, e.tms ";
 
 // Add fields from extrafields
 foreach ($extrafields->attribute_label as $key => $val) $sql .= ($extrafields->attribute_type[$key] != 'separate' ? ",ef." . $key . ' as options_' . $key : '');
@@ -421,12 +420,6 @@ if ($resql) {
         print '</td>';
     }
 
-    if (!empty($arrayfields['e.user_phone']['checked'])) {
-        print '<td class="liste_titre">';
-        print '&nbsp;';
-        print '</td>';
-    }
-
     // Extra fields
     include DOL_DOCUMENT_ROOT . '/core/tpl/extrafields_list_search_input.tpl.php';
     // Fields from hook
@@ -468,7 +461,6 @@ if ($resql) {
     if (!empty($arrayfields['e.code']['checked'])) print_liste_field_titre($arrayfields['e.code']['label'], $_SERVER["PHP_SELF"], 'e.code', '', $param, '', $sortfield, $sortorder, '');
     if (!empty($arrayfields['e.fk_stand']['checked']) && !empty($conf->stand->enabled)) print_liste_field_titre($arrayfields['e.fk_stand']['label'], $_SERVER["PHP_SELF"], 'e.fk_stand', '', $param, '', $sortfield, $sortorder, '');
     if (!empty($arrayfields['e.fk_user']['checked'])) print_liste_field_titre($arrayfields['e.fk_user']['label'], $_SERVER["PHP_SELF"], 'e.fk_user', '', $param, '', $sortfield, $sortorder, '');
-    if (!empty($arrayfields['e.user_phone']['checked'])) print_liste_field_titre($arrayfields['e.user_phone']['label'], $_SERVER["PHP_SELF"], 'e.user_phone', '', $param, '', $sortfield, $sortorder, '');
 
     // Extra fields
     include DOL_DOCUMENT_ROOT . '/core/tpl/extrafields_list_search_title.tpl.php';
@@ -546,13 +538,6 @@ if ($resql) {
 
             print '<td align="left">';
             print $obj->fk_user > 0 ? $generic_user->getNomUrl(1) : '&nbsp;';
-            print '</td>';
-            if (!$i) $totalarray['nbfield']++;
-        }
-
-        if (!empty($arrayfields['e.user_phone']['checked'])) {
-            print '<td align="left">';
-            print $obj->user_phone;
             print '</td>';
             if (!$i) $totalarray['nbfield']++;
         }

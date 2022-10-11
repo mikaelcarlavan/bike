@@ -54,11 +54,11 @@ if (!empty($conf->global->MAIN_VIEW_LINE_NUMBER)) {
 // Description
 print '<td class="linecoldescription">'.$langs->trans('BikeNote').'</td>';
 
-// Qty
+// User
 print '<td class="linecolfkuser right">'.$langs->trans('BikeUser').'</td>';
 
-// Price
-print '<td class="linecoluserphone right">'.$langs->trans('BikeUserPhone').'</td>';
+// Date
+print '<td class="linecoldatec right">'.$langs->trans('BikeAddDate').'</td>';
 
 
 print '<td class="linecoledit"></td>'; // No width to allow autodim

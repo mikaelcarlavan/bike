@@ -104,7 +104,6 @@ if (empty($reshook))
 		$note_public = GETPOST('note_public', 'restricthtml');
         $note_private = GETPOST('note_private', 'restricthtml');
 		$code = GETPOST('code', 'alpha');
-        $user_phone = GETPOST('user_phone', 'alpha');
         $fk_user = GETPOST('fk_user', 'int');
         $fk_stand = GETPOST('fk_stand', 'int');
 
@@ -120,7 +119,6 @@ if (empty($reshook))
             $object->note_private 	= $note_private;
             $object->fk_user 	    = $fk_user;
             $object->fk_stand 	    = $fk_stand;
-            $object->user_phone 	= $user_phone;
 
 			$id = $object->create($user);
 		}
@@ -163,13 +161,6 @@ if (empty($reshook))
 		
 		if ($result < 0) setEventMessages($object->error, $object->errors, 'errors');
 	}
-    else if ($action == 'setuser_phone' && !GETPOST('cancel','alpha'))
-    {
-        $object->user_phone = GETPOST('user_phone', 'alpha');
-        $result = $object->update($user);
-
-        if ($result < 0) setEventMessages($object->error, $object->errors, 'errors');
-    }
     else if ($action == 'setfk_stand' && !GETPOST('cancel','alpha'))
     {
         $object->fk_stand = GETPOST('fk_stand', 'int');
@@ -194,19 +185,17 @@ if (empty($reshook))
         // Set if we used free entry or predefined product
         $note = (GETPOSTISSET('note') ? GETPOST('note', 'restricthtml') : '');
         $fk_user = GETPOST('fk_user', 'int');
-        $user_phone = GETPOST('user_phone', 'alpha');
 
 
         if (!$error) {
 
             // Insert line
-            $result = $object->addline($note, $fk_user, $user_phone);
+            $result = $object->addline($note, $fk_user);
 
             if ($result > 0) {
                 $ret = $object->fetch($object->id); // Reload to get new records
 
                 unset($_POST['note']);
-                unset($_POST['user_phone']);
                 unset($_POST['fk_user']);
 
             } else {
@@ -220,13 +209,11 @@ if (empty($reshook))
         // Update a line
         $note = (GETPOSTISSET('note') ? GETPOST('note', 'restricthtml') : '');
         $fk_user = GETPOST('fk_user', 'int');
-        $user_phone = GETPOST('user_phone', 'alpha');
 
-        $result = $object->updateline(GETPOST('lineid', 'int'), $note, $fk_user, $user_phone);
+        $result = $object->updateline(GETPOST('lineid', 'int'), $note, $fk_user);
 
         if ($result >= 0) {
             unset($_POST['note']);
-            unset($_POST['user_phone']);
             unset($_POST['fk_user']);
         } else {
             setEventMessages($object->error, $object->errors, 'errors');
@@ -325,10 +312,6 @@ if ($action == 'create' && $user->rights->bike->creer)
 
     print '<tr><td>' . $langs->trans('BikeUser') . '</td><td>';
     print $form->select_dolusers(GETPOST('fk_user', 'int'),  'fk_user', 1);
-    print '</td></tr>';
-
-    print '<tr><td>' . $langs->trans('BikeUserPhone') . '</td><td>';
-    print '<input type="text" class="flat" size="60" name="user_phone" value="'.GETPOST('user_phone').'">';
     print '</td></tr>';
 
 	// Other attributes
@@ -495,27 +478,6 @@ if ($action == 'create' && $user->rights->bike->creer)
             print '</form>';
         } else {
             print $object->user ? $object->user->getNomUrl(1) : '&nbsp;';
-        }
-        print '</td>';
-        print '</tr>';
-
-        print '<tr><td>';
-        print '<table class="nobordernopadding" width="100%"><tr><td>';
-        print $langs->trans('BikeUserPhone');
-        print '</td>';
-        if ($action != 'edituser_phone')
-            print '<td align="right"><a href="' . $_SERVER["PHP_SELF"] . '?action=edituser_phone&amp;id=' . $object->id . '">' . img_edit($langs->trans('SetLicencePlate'), 1) . '</a></td>';
-        print '</tr></table>';
-        print '</td><td>';
-        if ($action == 'edituser_phone') {
-            print '<form name="setuser_phone" action="' . $_SERVER["PHP_SELF"] . '?id=' . $object->id . '" method="post">';
-            print '<input type="hidden" name="token" value="' . $_SESSION ['newtoken'] . '">';
-            print '<input type="hidden" name="action" value="setuser_phone">';
-            print '<input type="text" class="flat" size="60" name="user_phone" value="'.$object->user_phone.'">';
-            print '<input type="submit" class="button" value="' . $langs->trans('Modify') . '">';
-            print '</form>';
-        } else {
-            print $object->user_phone ? $object->user_phone : '&nbsp;';
         }
         print '</td>';
         print '</tr>';

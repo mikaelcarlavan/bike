@@ -129,8 +129,8 @@ $coldisplay++;
         <?php print $form->select_dolusers($line->fk_user,  'fk_user', 1); ?>
     </td>
 
-    <td class="nobottom linecoluserphone right">
-        <input type="text" size="40" name="user_phone" id="user_phone" class="flat right" value="<?php echo $line->user_phone; ?>">
+    <td class="nobottom linecoldatec right">
+    &nbsp;
     </td>
 
 	<!-- colspan for this td because it replace total_ht+3 td for buttons+... -->

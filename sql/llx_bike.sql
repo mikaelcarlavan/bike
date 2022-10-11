@@ -25,7 +25,6 @@ CREATE TABLE IF NOT EXISTS `llx_bike`
     `name`           varchar(255) NULL,
     `code`           varchar(255) NULL,
     `fk_user`        int(11) DEFAULT 0,
-    `user_phone`     varchar(255) NULL,
     `fk_stand`       int(11) DEFAULT 0,
     `note_public`    text         NULL,
     `note_private`   text         NULL,

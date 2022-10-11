@@ -108,12 +108,6 @@ class Bike extends CommonObject
     public $fk_user;
 
     /**
-     * Current user phone.
-     * @var string
-     */
-    public $user_phone;
-
-    /**
      * Current stand id
      * @var int
      */
@@ -220,7 +214,6 @@ class Bike extends CommonObject
         'ref' =>array('type'=>'varchar(30)', 'label'=>'Ref', 'enabled'=>1, 'visible'=>-1, 'notnull'=>1, 'showoncombobox'=>1, 'position'=>20),
 		'name' =>array('type'=>'varchar(255)', 'label'=>'BikeName', 'enabled'=>1, 'visible'=>1, 'position'=>25),
 		'code' =>array('type'=>'varchar(255)', 'label'=>'BikeCode', 'enabled'=>1, 'visible'=>1, 'position'=>30),
-        'user_phone' =>array('type'=>'varchar(255)', 'label'=>'BikeUserPhone', 'enabled'=>1, 'visible'=>1, 'position'=>32),
         'fk_user' =>array('type'=>'integer:User:user/class/user.class.php', 'label'=>'BikeUser', 'enabled'=>1, 'visible'=>1, 'position'=>35),
 		'fk_stand' =>array('type'=>'integer:Stand:stand/class/stand.class.php', 'label'=>'BikeStand', 'enabled'=>1, 'visible'=>1, 'position'=>40),
         'note_private' =>array('type'=>'text', 'label'=>'NotePublic', 'enabled'=>1, 'visible'=>0, 'position'=>45),
@@ -304,7 +297,6 @@ class Bike extends CommonObject
             $sql.= " , name";
             $sql.= " , code";
             $sql.= " , fk_user";
-            $sql.= " , user_phone";
             $sql.= " , fk_stand";
             $sql.= " , note_public";
             $sql.= " , note_private";
@@ -319,7 +311,6 @@ class Bike extends CommonObject
             $sql.= ", ".(!empty($this->name) ? "'".$this->db->escape($this->name)."'" : "null");
             $sql.= ", ".(!empty($this->code) ? "'".$this->db->escape($this->code)."'" : "null");
             $sql.= ", ".(!empty($this->fk_user) ? $this->fk_user : "0");
-            $sql.= ", ".(!empty($this->user_phone) ? "'".$this->db->escape($this->user_phone)."'" : "null");
             $sql.= ", ".(!empty($this->fk_stand) ? $this->fk_stand : "0");
             $sql.= ", ".(!empty($this->note_public) ? "'".$this->db->escape($this->note_public)."'" : "null");
             $sql.= ", ".(!empty($this->note_private) ? "'".$this->db->escape($this->note_private)."'" : "null");
@@ -422,7 +413,6 @@ class Bike extends CommonObject
 		$sql.= " SET ref = ".(!empty($this->ref) ? "'".$this->db->escape($this->ref)."'" : "null");
 		$sql.= ", name = ".(!empty($this->name) ? "'".$this->db->escape($this->name)."'" : "null");
 		$sql.= ", code = ".(!empty($this->code) ? "'".$this->db->escape($this->code)."'" : "null");
-        $sql.= ", user_phone = ".(!empty($this->user_phone) ? "'".$this->db->escape($this->user_phone)."'" : "null");
         $sql.= ", note_public = ".(!empty($this->note_public) ? "'".$this->db->escape($this->note_public)."'" : "null");
         $sql.= ", note_private = ".(!empty($this->note_private) ? "'".$this->db->escape($this->note_private)."'" : "null");
         $sql.= ", fk_user = ".(!empty($this->fk_user) ? $this->fk_user : "0");
@@ -479,7 +469,7 @@ class Bike extends CommonObject
             return -1;
         }
 
-		$sql = "SELECT e.rowid, e.ref, e.datec, e.active, e.tms, e.name, e.code, e.note_public, e.note_private, e.fk_user, e.user_phone, e.fk_stand, ";
+		$sql = "SELECT e.rowid, e.ref, e.datec, e.active, e.tms, e.name, e.code, e.note_public, e.note_private, e.fk_user, e.fk_stand, ";
 		$sql.= " e.user_author_id, e.fk_user_modif, e.entity ";
 		$sql.= " FROM ".MAIN_DB_PREFIX."bike e";
         if ($id > 0) {
@@ -508,7 +498,6 @@ class Bike extends CommonObject
                 $this->note_public 	   = $obj->note_public;
                 $this->note_private 	= $obj->note_private;
 				$this->fk_user 	        = $obj->fk_user;
-                $this->user_phone 	    = $obj->user_phone;
                 $this->fk_stand 	     = $obj->fk_stand;
 
 				$this->entity			= $obj->entity;
@@ -555,7 +544,7 @@ class Bike extends CommonObject
 		// phpcs:enable
         $this->lines = array();
 
-        $sql = 'SELECT l.rowid, l.fk_bike, l.note, l.fk_user, l.user_phone, l.user_author_id, l.datec, l.tms ';
+        $sql = 'SELECT l.rowid, l.fk_bike, l.note, l.fk_user, l.user_author_id, l.datec, l.tms ';
         $sql .= ' FROM '.MAIN_DB_PREFIX.'bikedet as l';
         $sql .= ' WHERE l.fk_bike = '.$this->id;
         $sql .= ' ORDER BY l.rowid';
@@ -577,11 +566,10 @@ class Bike extends CommonObject
                 $line->fk_bike          = $objp->fk_bike;
                 $line->fk_user          = $objp->fk_user;
                 $line->note            = $objp->note;
-                $line->user_phone      = $objp->user_phone;
 
-                $this->user_author_id 	= $objp->user_author_id;
-                $this->datec 			= $this->db->jdate($objp->datec);
-                $this->tms 			    = $this->db->jdate($objp->tms);
+                $line->user_author_id 	= $objp->user_author_id;
+                $line->datec 			= $this->db->jdate($objp->datec);
+                $line->tms 			    = $this->db->jdate($objp->tms);
 
                 $line->user = new User($this->db);
                 $line->user->fetch($line->fk_user);
@@ -847,7 +835,7 @@ class Bike extends CommonObject
      * @param $note
      * @return     int                                >0 if OK, <0 if KO
      */
-    public function addline($note, $fk_user = 0, $user_phone = '')
+    public function addline($note, $fk_user = 0)
     {
         global $mysoc, $conf, $langs, $user;
 
@@ -866,7 +854,6 @@ class Bike extends CommonObject
 
         $this->line->fk_bike = $this->id;
         $this->line->note = $note;
-        $this->line->user_phone = $user_phone;
         $this->line->fk_user = $fk_user;
 
         $result = $this->line->insert($user);
@@ -889,7 +876,7 @@ class Bike extends CommonObject
      * 	@param		int				$notrigger			disable line update trigger
      *  @return   	int              					< 0 if KO, > 0 if OK
      */
-    public function updateline($rowid, $note, $fk_user, $user_phone, $notrigger = 0)
+    public function updateline($rowid, $note, $fk_user, $notrigger = 0)
     {
         global $conf, $mysoc, $langs, $user;
 
@@ -909,7 +896,6 @@ class Bike extends CommonObject
 
         $this->line->id = $rowid;
         $this->line->note = $note;
-        $this->line->user_phone = $user_phone;
         $this->line->fk_user = $fk_user;
 
         $result = $this->line->update($user, $notrigger);
@@ -1203,12 +1189,6 @@ class BikeLine extends CommonObjectLine
     public $fk_user = 0;
 
     /**
-     * Author phone.
-     * @var string
-     */
-    public $user_phone;
-
-    /**
      * Creation date
      * @var int
      */
@@ -1250,7 +1230,7 @@ class BikeLine extends CommonObjectLine
      */
     public function fetch($rowid)
     {
-        $sql = 'SELECT cd.rowid, cd.fk_bike, cd.fk_user, cd.user_phone, cd.user_author_id, cd.note, cd.datec, cd.tms';
+        $sql = 'SELECT cd.rowid, cd.fk_bike, cd.fk_user, cd.user_author_id, cd.note, cd.datec, cd.tms';
         $sql .= ' FROM '.MAIN_DB_PREFIX.'bikedet as cd';
         $sql .= ' WHERE cd.rowid = '.((int) $rowid);
         $result = $this->db->query($sql);
@@ -1260,7 +1240,6 @@ class BikeLine extends CommonObjectLine
             $this->id               = $objp->rowid;
             $this->fk_bike          = $objp->fk_bike;
             $this->note            = $objp->note;
-            $this->user_phone      = $objp->user_phone;
             $this->fk_user          = $objp->fk_user;
 
             $this->user = new User($this->db);
@@ -1351,11 +1330,10 @@ class BikeLine extends CommonObjectLine
         $this->user_author_id = $user ? $user->id : 0;
 
         // Insertion dans base de la ligne
-        $sql = 'INSERT INTO '.MAIN_DB_PREFIX.'bikedet (fk_bike, note, fk_user, user_phone, user_author_id, datec, tms)';
+        $sql = 'INSERT INTO '.MAIN_DB_PREFIX.'bikedet (fk_bike, note, fk_user, user_author_id, datec, tms)';
         $sql .= " VALUES (".$this->fk_bike.",";
         $sql .= " ".(!empty($this->note) ? "'".$this->db->escape($this->note)."'" : "null").",";
         $sql .= " ".(!empty($this->fk_user) ? $this->fk_user : "0").",";
-        $sql .= " ".(!empty($this->user_phone) ? "'".$this->db->escape($this->user_phone)."'" : "null").",";
         $sql .= " ".(!empty($this->user_author_id) ? $this->user_author_id : "0").",";
         $sql .= " '".$this->db->idate(dol_now())."',";
         $sql .= " '".$this->db->idate(dol_now())."'";
@@ -1413,7 +1391,6 @@ class BikeLine extends CommonObjectLine
         $sql = "UPDATE ".MAIN_DB_PREFIX."bikedet SET";
         $sql .= " note=".(!empty($this->note) ? "'".$this->db->escape($this->note)."'" : "null");
         $sql .= " , fk_user=".(!empty($this->fk_user) ? $this->fk_user : "0");
-        $sql .= " , user_phone=".(!empty($this->user_phone) ? "'".$this->db->escape($this->user_phone)."'" : "null");
         $sql .= " , tms='".$this->db->idate(dol_now())."'";
         $sql .= " WHERE rowid = ".((int) $this->rowid);
 

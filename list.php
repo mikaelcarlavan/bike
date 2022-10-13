@@ -212,7 +212,9 @@ $help_url = "";
 
 $sql = 'SELECT';
 if ($sall) $sql = 'SELECT DISTINCT';
-$sql .= " e.rowid, e.ref, e.active, e.datec, e.name, e.code, e.fk_user, e.fk_stand, e.user_author_id, e.entity, e.tms ";
+$sql .= " e.rowid, e.ref, e.active, e.datec, e.name, e.code, e.fk_user, e.fk_stand, e.user_author_id, e.entity, e.tms, ";
+$sql .= " s.rowid as stand_id, s.ref as stand_ref, s.name as stand_name, ";
+$sql .= " u.rowid as user_id, u.login as user_login, u.firstname as user_firstname, u.lastname as user_lastname ";
 
 // Add fields from extrafields
 foreach ($extrafields->attribute_label as $key => $val) $sql .= ($extrafields->attribute_type[$key] != 'separate' ? ",ef." . $key . ' as options_' . $key : '');
@@ -223,6 +225,9 @@ $sql .= $hookmanager->resPrint;
 $sql .= ' FROM ' . MAIN_DB_PREFIX . 'bike as e';
 
 if (is_array($extrafields->attribute_label) && count($extrafields->attribute_label)) $sql .= " LEFT JOIN " . MAIN_DB_PREFIX . "bike_extrafields as ef on (e.rowid = ef.fk_object)";
+
+$sql .= ' LEFT JOIN ' . MAIN_DB_PREFIX . 'stand as s ON e.fk_stand = s.rowid';
+$sql .= ' LEFT JOIN ' . MAIN_DB_PREFIX . 'user as u ON e.fk_user = u.rowid';
 
 $sql .= ' WHERE e.entity IN (' . getEntity('bike') . ')';
 if ($search_ref) $sql .= natural_search('e.ref', $search_ref);
@@ -344,7 +349,7 @@ if ($resql) {
     print '<input type="hidden" name="contextpage" value="' . $contextpage . '">';
 
 
-    print_barre_liste($title, $page, $_SERVER["PHP_SELF"], $param, $sortfield, $sortorder, $massactionbutton, $num, $nbtotalofrecords, 'bike@bike', 0, $newcardbutton, '', $limit);
+    print_barre_liste($title, $page, $_SERVER["PHP_SELF"], $param, $sortfield, $sortorder, $massactionbutton, $num, $nbtotalofrecords, 'bike2@bike', 0, $newcardbutton, '', $limit);
 
     $topicmail = "SendBikeRef";
     $modelmail = "bike_send";
@@ -480,6 +485,7 @@ if ($resql) {
 
     $generic_bike = new Bike($db);
     $generic_user = new User($db);
+    $generic_stand = new Stand($db);
 
     $i = 0;
     $totalarray = array('nbfield' => 0);
@@ -489,8 +495,15 @@ if ($resql) {
 
         $generic_bike->id = $obj->rowid;
         $generic_bike->ref = $obj->ref;
-        $generic_bike->datec = $db->jdate($obj->datec);
 
+        $generic_stand->id = $obj->stand_id;
+        $generic_stand->ref = $obj->stand_ref;
+        $generic_stand->name = $obj->stand_name;
+
+        $generic_user->id = $obj->user_id;
+        $generic_user->login = $obj->user_login;
+        $generic_user->firstname = $obj->user_firstname;
+        $generic_user->lastname = $obj->user_lastname;
 
         print '<tr class="oddeven">';
 
@@ -523,9 +536,6 @@ if ($resql) {
 
 
         if (!empty($arrayfields['e.fk_stand']['checked']) && !empty($conf->stand->enabled)) {
-            $generic_stand = new Stand($db);
-            $generic_stand->fetch($obj->fk_stand);
-
             print '<td align="left">';
             print $obj->fk_stand > 0 ? $generic_stand->getNomUrl(1) : '&nbsp;';
             print '</td>';
@@ -533,9 +543,6 @@ if ($resql) {
         }
 
         if (!empty($arrayfields['e.fk_user']['checked'])) {
-            $generic_user = new User($db);
-            $generic_user->fetch($obj->fk_user);
-
             print '<td align="left">';
             print $obj->fk_user > 0 ? $generic_user->getNomUrl(1) : '&nbsp;';
             print '</td>';

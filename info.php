@@ -57,7 +57,7 @@ llxHeader('', $langs->trans('Bike'));
 $object->info($object->id);
 
 $head = bike_prepare_head($object);
-dol_fiche_head($head, 'info', $langs->trans("Bike"), 0, 'bike@bike');
+dol_fiche_head($head, 'info', $langs->trans("Bike"), 0, 'bike2@bike');
 
 // Order card
 

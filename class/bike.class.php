@@ -65,7 +65,7 @@ class Bike extends CommonObject
 	/**
 	 * @var string String with name of icon for commande class. Here is object_order.png
 	 */
-	public $picto = 'bike@bike';
+	public $picto = 'bike2@bike';
 
 	/**
 	 * 0=No test on entity, 1=Test with field entity, 2=Test with link by societe
@@ -835,7 +835,7 @@ class Bike extends CommonObject
      * @param $note
      * @return     int                                >0 if OK, <0 if KO
      */
-    public function addline($note, $fk_user = 0)
+    public function addline($note, $fk_user = -1)
     {
         global $mysoc, $conf, $langs, $user;
 
@@ -876,7 +876,7 @@ class Bike extends CommonObject
      * 	@param		int				$notrigger			disable line update trigger
      *  @return   	int              					< 0 if KO, > 0 if OK
      */
-    public function updateline($rowid, $note, $fk_user, $notrigger = 0)
+    public function updateline($rowid, $note, $fk_user = -1, $notrigger = 0)
     {
         global $conf, $mysoc, $langs, $user;
 
@@ -1138,7 +1138,6 @@ class Bike extends CommonObject
 				{
 					$obj = $this->db->fetch_object($result);
 
-					$datec = $this->db->jdate($obj->datec);
 					$bike = new Bike($this->db);
 					$bike->fetch($obj->id);
 
@@ -1155,6 +1154,95 @@ class Bike extends CommonObject
 			return -1;
 		}
 	}
+
+    /**
+     *  Return list of bikes
+     *
+     *  @return     int             		-1 if KO, array with result if OK
+     */
+    function liste_free_array()
+    {
+        global $user;
+
+        $bikes = array();
+
+        $sql = "SELECT e.rowid as id, e.ref, e.datec";
+        $sql.= " FROM ".MAIN_DB_PREFIX."bike as e";
+        $sql.= " WHERE e.entity IN (".getEntity('bike').")";
+        $sql.= " AND e.fk_user <= 0";
+
+        $result=$this->db->query($sql);
+        if ($result)
+        {
+            $num = $this->db->num_rows($result);
+            if ($num)
+            {
+                $i = 0;
+                while ($i < $num)
+                {
+                    $obj = $this->db->fetch_object($result);
+
+                    $bike = new Bike($this->db);
+                    $bike->fetch($obj->id);
+
+                    $bikes[$obj->id] = $bike;
+
+                    $i++;
+                }
+            }
+            return $bikes;
+        }
+        else
+        {
+            dol_print_error($this->db);
+            return -1;
+        }
+    }
+
+
+    /**
+     *  Return list of bikes
+     *
+     *  @return     int             		-1 if KO, array with result if OK
+     */
+    function liste_stand_array($fk_stand)
+    {
+        global $user;
+
+        $bikes = array();
+
+        $sql = "SELECT e.rowid as id, e.ref, e.datec";
+        $sql.= " FROM ".MAIN_DB_PREFIX."bike as e";
+        $sql.= " WHERE e.entity IN (".getEntity('bike').")";
+        $sql.= " AND e.fk_stand = ".intval($fk_stand);
+
+        $result=$this->db->query($sql);
+        if ($result)
+        {
+            $num = $this->db->num_rows($result);
+            if ($num)
+            {
+                $i = 0;
+                while ($i < $num)
+                {
+                    $obj = $this->db->fetch_object($result);
+
+                    $bike = new Bike($this->db);
+                    $bike->fetch($obj->id);
+
+                    $bikes[$obj->id] = $bike;
+
+                    $i++;
+                }
+            }
+            return $bikes;
+        }
+        else
+        {
+            dol_print_error($this->db);
+            return -1;
+        }
+    }
 }
 
 /**
@@ -1322,7 +1410,7 @@ class BikeLine extends CommonObjectLine
 
         $error = 0;
 
-        dol_syslog(get_class($this)."::insert rang=".$this->rang);
+        dol_syslog(get_class($this)."::insert");
 
         $this->db->begin();
 

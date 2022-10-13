@@ -56,6 +56,7 @@ if ($nolinesbefore) {
 			<div id="add"></div><span class="hideonsmartphone"><?php echo $langs->trans('BikeAddNewNote'); ?></span>
 		</td>
         <td class="linecolfkuser right"><?php echo $langs->trans('BikeUser'); ?></td>
+        <td class="linecoldatec right"><?php echo $langs->trans('BikeAddDate'); ?></td>
         <td class="linecoledit" colspan="3">&nbsp;</td>
 	</tr>
 	<?php

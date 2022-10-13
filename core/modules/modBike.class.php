@@ -77,7 +77,7 @@ class modBike extends DolibarrModules
 		// Name of image file used for this module.
 		// If file is in theme/yourtheme/img directory under name object_pictovalue.png, use this->picto='pictovalue'
 		// If file is in module/img directory under name object_pictovalue.png, use this->picto='pictovalue@module'
-		$this->picto='bike@bike';
+		$this->picto='bike2@bike';
 
 		// Defined all module parts (triggers, login, substitutions, menus, css, etc...)
 		// for default path (eg: /bike/core/xxxxx) (0=disable, 1=enable)
@@ -177,26 +177,11 @@ class modBike extends DolibarrModules
 		$this->menu = array();
 		$r = 0;
 
-		$this->menu[$r]=array('fk_menu'=>0,			                // Put 0 if this is a top menu
-			'type'=>'top',			                // This is a Top menu entry
-			'titre'=>$langs->trans('Bikes'),
-			'mainmenu'=>'bike',
-			'leftmenu'=>'',
-			'url'=>'/bike/index.php',
-			'langs'=> 'bike@bike',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
-			'position'=> 30,
-			'enabled'=>'$conf->bike->enabled ', //&& (!(! empty($conf->comptabilite->enabled) || ! empty($conf->accounting->enabled) || ! empty($conf->facture->enabled) || ! empty($conf->deplacement->enabled) || ! empty($conf->don->enabled) || ! empty($conf->tax->enabled)))
-			'perms'=>'$user->rights->bike->lire',			                // Use 'perms'=>'$user->rights->report->level1->level2' if you want your menu with a permission rules
-			'target'=>'',
-			'user'=>2
-		);
-
-		$r++;
         $this->menu[$r]=array(
-            'fk_menu'=>'fk_mainmenu=bike',			// Put 0 if this is a top menu
+            'fk_menu'=>'fk_mainmenu=veloma',			// Put 0 if this is a top menu
         	'type'=> 'left',			// This is a Top menu entry
         	'titre'=> $langs->trans('Bikes'),
-        	'mainmenu'=> 'bike',
+        	'mainmenu'=> 'veloma',
         	'leftmenu'=> 'bikes',		// Use 1 if you also want to add left menu entries using this descriptor. Use 0 if left menu entries are defined in a file pre.inc.php (old school).
 			'url'=> '/bike/index.php',
 			'langs'=> 'bike@bike',	// Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
@@ -209,10 +194,10 @@ class modBike extends DolibarrModules
 		
 		$r++;
         $this->menu[$r]=array(
-            'fk_menu'=>'fk_mainmenu=bike,fk_leftmenu=bikes',			// Put 0 if this is a top menu
+            'fk_menu'=>'fk_mainmenu=veloma,fk_leftmenu=bikes',			// Put 0 if this is a top menu
         	'type'=> 'left',			// This is a Top menu entry
         	'titre'=> $langs->trans('BikesNew'),
-        	'mainmenu'=> 'bike',
+        	'mainmenu'=> 'veloma',
         	'leftmenu'=> 'bikes_nouveau',		// Use 1 if you also want to add left menu entries using this descriptor. Use 0 if left menu entries are defined in a file pre.inc.php (old school).
 			'url'=> '/bike/card.php?action=create',
 			'langs'=> 'bike@bike',	// Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
@@ -225,10 +210,10 @@ class modBike extends DolibarrModules
 		
 		$r++;
         $this->menu[$r]=array(
-            'fk_menu'=>'fk_mainmenu=bike,fk_leftmenu=bikes',			// Put 0 if this is a top menu
+            'fk_menu'=>'fk_mainmenu=veloma,fk_leftmenu=bikes',			// Put 0 if this is a top menu
         	'type'=> 'left',			// This is a Top menu entry
         	'titre'=> $langs->trans('BikesList'),
-        	'mainmenu'=> 'bike',
+        	'mainmenu'=> 'veloma',
         	'leftmenu'=> 'bikes_liste',		// Use 1 if you also want to add left menu entries using this descriptor. Use 0 if left menu entries are defined in a file pre.inc.php (old school).
 			'url'=> '/bike/list.php',
 			'langs'=> 'bike@bike',	// Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.

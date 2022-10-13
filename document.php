@@ -93,7 +93,7 @@ if ($id > 0 || ! empty($ref))
 		$upload_dir = $conf->bike->dir_output.'/'.dol_sanitizeFileName($object->ref);
 
 		$head = bike_prepare_head($object);
-		dol_fiche_head($head, 'documents', $langs->trans('Bike'), 0, 'bike@bike');
+		dol_fiche_head($head, 'documents', $langs->trans('Bike'), 0, 'bike2@bike');
 
 		// Build file list
 		$filearray=dol_dir_list($upload_dir,"files",0,'','(\.meta|_preview.*\.png)$',$sortfield,(strtolower($sortorder)=='desc'?SORT_DESC:SORT_ASC),1);

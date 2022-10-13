@@ -67,7 +67,7 @@ dol_fiche_head(
 	'about',
 	$langs->trans("ModuleBikeName"),
 	0,
-	'bike@bike'
+	'bike2@bike'
 );
 
 // About page goes here

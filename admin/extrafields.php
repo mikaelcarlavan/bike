@@ -73,7 +73,7 @@ dol_fiche_head(
 	'attributes',
 	$langs->trans("Bikes"),
 	0,
-	'bike@bike'
+	'bike2@bike'
 );
 
 

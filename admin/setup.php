@@ -118,7 +118,7 @@ dol_fiche_head(
 	'settings',
 	$langs->trans("ModuleBikeName"),
 	0,
-	"bike@bike"
+	"bike2@bike"
 );
 
 $form = new Form($db);

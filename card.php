@@ -186,7 +186,6 @@ if (empty($reshook))
         $note = (GETPOSTISSET('note') ? GETPOST('note', 'restricthtml') : '');
         $fk_user = GETPOST('fk_user', 'int');
 
-
         if (!$error) {
 
             // Insert line
@@ -277,7 +276,7 @@ $formproject = new FormProjets($db);
 // Mode creation
 if ($action == 'create' && $user->rights->bike->creer)
 {
-	print load_fiche_titre($langs->trans('NewBike'),'','bike@bike');
+	print load_fiche_titre($langs->trans('NewBike'),'','bike2@bike');
 
 
 	print '<form name="crea_bike" action="' . $_SERVER["PHP_SELF"] . '" method="POST">';
@@ -358,7 +357,7 @@ if ($action == 'create' && $user->rights->bike->creer)
 
 		$head = bike_prepare_head($object);
 		
-		dol_fiche_head($head, 'bike', $langs->trans("Bike"), -1, 'bike@bike');
+		dol_fiche_head($head, 'bike', $langs->trans("Bike"), -1, 'bike2@bike');
 
 		$formconfirm = '';
 

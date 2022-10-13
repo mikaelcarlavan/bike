@@ -547,7 +547,7 @@ class Bike extends CommonObject
         $sql = 'SELECT l.rowid, l.fk_bike, l.note, l.fk_user, l.user_author_id, l.datec, l.tms ';
         $sql .= ' FROM '.MAIN_DB_PREFIX.'bikedet as l';
         $sql .= ' WHERE l.fk_bike = '.$this->id;
-        $sql .= ' ORDER BY l.rowid';
+        $sql .= ' ORDER BY l.rowid DESC';
 
         dol_syslog(get_class($this)."::fetch_lines", LOG_DEBUG);
         $result = $this->db->query($sql);
@@ -826,6 +826,33 @@ class Bike extends CommonObject
             } else {
                 $res = include $tpl; // for debug
             }
+        }
+    }
+
+    /**
+     *  Load last line id for user
+     *
+     *  @param  int		$fk_user          Id user
+     *  @return    int              <0 if KO, >0 if OK
+     */
+    public function fetch_last_lineid($fk_user = 0)
+    {
+        $sql = 'SELECT cd.rowid';
+        $sql .= ' FROM '.MAIN_DB_PREFIX.'bikedet as cd';
+        $sql .= ' WHERE cd.fk_stand = '.$this->id;
+        $sql .= ' AND cd.fk_user = '.((int) $fk_user);
+        $sql .= ' LIMIT 1';
+        $result = $this->db->query($sql);
+        if ($result) {
+            $objp = $this->db->fetch_object($result);
+            if ($objp) {
+                return $objp->rowid;
+            } else {
+                return 0;
+            }
+        } else {
+            $this->error = $this->db->lasterror();
+            return -1;
         }
     }
 

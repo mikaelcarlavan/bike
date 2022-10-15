@@ -62,7 +62,7 @@ class BikeForm
         }
         foreach ($bikes as $id => $bike)
         {
-            $select .= '<option value="'.$id.'" '.($id == $selected ? 'selected="selected"' : '').'>'.$bike->name.'</option>';
+            $select .= '<option value="'.$id.'" '.($id == $selected ? 'selected="selected"' : '').'>'.$bike->ref.'</option>';
         }
         
         $select .= '</select>';

@@ -475,6 +475,7 @@ class Bike extends CommonObject
         if ($id > 0) {
             $sql.= " WHERE e.rowid=".$id;
         } else {
+            $ref = strtoupper($ref);
             $sql.= " WHERE e.entity IN (".getEntity('bike').") AND e.ref='".$this->db->escape($ref)."'";
         }
 

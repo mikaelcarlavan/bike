@@ -112,7 +112,8 @@ BikeStatusValidatedShort = Validé
 BikeStatusDraft = Brouillon
 BikeStatusDraftShort = Brouillon
 BikeStatus = Statut
-
+BikeActive = Atif
+BikeInactive = Inactif
 #
 BikeUserNotFound = Le compte utilisateur n'a pas été trouvé
 AccessNotAllowed = Cette action ne vous est pas autorisée.

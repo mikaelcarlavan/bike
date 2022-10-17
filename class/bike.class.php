@@ -1113,32 +1113,46 @@ class Bike extends CommonObject
 		
         return $result;
 	}
-	
+
     /**
-     *	Return status label of Bike
+     *	Return status label of Chargement
      *
      *	@param      int		$mode       0=libelle long, 1=libelle court, 2=Picto + Libelle court, 3=Picto, 4=Picto + Libelle long, 5=Libelle court + Picto
      *	@return     string      		Libelle
      */
     function getLibStatut($mode)
     {
-		return $this->LibStatut(0, $mode);
-	}
+        return $this->LibStatut($this->active, $mode);
+    }
 
-	// phpcs:disable PEAR.NamingConventions.ValidFunctionName.ScopeNotCamelCaps
-	/**
-	 *	Return label of status
-	 *
-	 *	@param		int		$status      	  Id status
-	 *	@param      int		$mode        	  0=Long label, 1=Short label, 2=Picto + Short label, 3=Picto, 4=Picto + Long label, 5=Short label + Picto, 6=Long label + Picto
-	 *  @return     string					  Label of status
-	 */
-	public function LibStatut($status, $mode)
-	{
-		// phpcs:enable
-		global $langs, $conf;
-		return '';
-	}
+    // phpcs:disable PEAR.NamingConventions.ValidFunctionName.ScopeNotCamelCaps
+    /**
+     *	Return label of status
+     *
+     *	@param		int		$status      	  Id status
+     *	@param      int		$mode        	  0=Long label, 1=Short label, 2=Picto + Short label, 3=Picto, 4=Picto + Long label, 5=Short label + Picto, 6=Long label + Picto
+     *  @return     string					  Label of status
+     */
+    public function LibStatut($status, $mode)
+    {
+        // phpcs:enable
+        global $langs, $conf;
+
+
+        $labelTooltip = '';
+
+        if ($status) {
+            $labelStatus = $langs->transnoentitiesnoconv('BikeActive');
+            $labelStatusShort = $langs->transnoentitiesnoconv('BikeActive');
+            $statusType = 'status4';
+        } else {
+            $labelStatus = $langs->transnoentitiesnoconv('BikeInactive');
+            $labelStatusShort = $langs->transnoentitiesnoconv('BikeInactive');
+            $statusType = 'status8';
+        }
+
+        return dolGetStatus($labelStatus, $labelStatusShort, '', $statusType, $mode, '', array('tooltip' => $labelTooltip));
+    }
 
 	/**
 	 *  Return list of bikes

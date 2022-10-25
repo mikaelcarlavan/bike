@@ -1168,6 +1168,7 @@ class Bike extends CommonObject
 		$sql = "SELECT e.rowid as id, e.ref, e.datec";
 		$sql.= " FROM ".MAIN_DB_PREFIX."bike as e";
 		$sql.= " WHERE e.entity IN (".getEntity('bike').")";
+        $sql.= " AND e.active  = 1";
 
 		$result=$this->db->query($sql);
 		if ($result)

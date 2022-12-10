@@ -280,7 +280,7 @@ if ($action == 'create' && $user->rights->bike->creer)
 
 
 	print '<form name="crea_bike" action="' . $_SERVER["PHP_SELF"] . '" method="POST">';
-	print '<input type="hidden" name="token" value="' . $_SESSION ['newtoken'] . '">';
+	print '<input type="hidden" name="token" value="' . newToken() . '">';
 	print '<input type="hidden" name="action" value="add">';
 
 	dol_fiche_head('');
@@ -402,7 +402,7 @@ if ($action == 'create' && $user->rights->bike->creer)
         print '</td><td>';
         if ($action == 'editname') {
             print '<form name="setname" action="' . $_SERVER["PHP_SELF"] . '?id=' . $object->id . '" method="post">';
-            print '<input type="hidden" name="token" value="' . $_SESSION ['newtoken'] . '">';
+            print '<input type="hidden" name="token" value="' . newToken() . '">';
             print '<input type="hidden" name="action" value="setname">';
             print '<input type="text" class="flat" size="60" name="name" value="'.$object->name.'">';
             print '<input type="submit" class="button" value="' . $langs->trans('Modify') . '">';
@@ -423,7 +423,7 @@ if ($action == 'create' && $user->rights->bike->creer)
         print '</td><td>';
         if ($action == 'editcode') {
             print '<form name="setcode" action="' . $_SERVER["PHP_SELF"] . '?id=' . $object->id . '" method="post">';
-            print '<input type="hidden" name="token" value="' . $_SESSION ['newtoken'] . '">';
+            print '<input type="hidden" name="token" value="' . newToken() . '">';
             print '<input type="hidden" name="action" value="setcode">';
             print '<input type="text" class="flat" size="60" name="code" value="'.$object->code.'">';
             print '<input type="submit" class="button" value="' . $langs->trans('Modify') . '">';
@@ -447,7 +447,7 @@ if ($action == 'create' && $user->rights->bike->creer)
             print '</td><td>';
             if ($action == 'editfk_stand') {
                 print '<form name="setfk_stand" action="' . $_SERVER["PHP_SELF"] . '?id=' . $object->id . '" method="post">';
-                print '<input type="hidden" name="token" value="' . $_SESSION ['newtoken'] . '">';
+                print '<input type="hidden" name="token" value="' . newToken() . '">';
                 print '<input type="hidden" name="action" value="setfk_stand">';
                 print $standform->select_stand($object->fk_stand, 'fk_stand', '', 1);
                 print '<input type="text" class="flat" size="60" name="zip" value="'.$object->zip.'">';
@@ -470,7 +470,7 @@ if ($action == 'create' && $user->rights->bike->creer)
         print '</td><td>';
         if ($action == 'editfk_user') {
             print '<form name="setfk_user" action="' . $_SERVER["PHP_SELF"] . '?id=' . $object->id . '" method="post">';
-            print '<input type="hidden" name="token" value="' . $_SESSION ['newtoken'] . '">';
+            print '<input type="hidden" name="token" value="' . newToken() . '">';
             print '<input type="hidden" name="action" value="setfk_user">';
             print $form->select_dolusers($object->fk_user,  'fk_user', 1);
             print '<input type="submit" class="button" value="' . $langs->trans('Modify') . '">';

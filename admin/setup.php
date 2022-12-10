@@ -184,7 +184,7 @@ if (is_dir($dir))
 					}
 					else
 					{
-						print '<a href="'.$_SERVER["PHP_SELF"].'?action=setmod&amp;value='.$file.'">';
+						print '<a href="'.$_SERVER["PHP_SELF"].'?action=setmod&amp;value='.$file.'&amp;token='.newToken().'">';
 						print img_picto($langs->trans("Disabled"),'switch_off');
 						print '</a>';
 					}
